@@ -5,10 +5,11 @@ import Lab from "../assets/lab.jpg";
 import Gyno from "../assets/gyno.jpg";
 import Dentist from "../assets/dentist.jpeg";
 import Optics from "../assets/optics.jpg";
-import First from '../assets/first.jpg'
-import Second from '../assets/second.jpg'
-import Third from '../assets/third.jpg'
-import Fourth from '../assets/fourth.jpg'
+import First from '../assets/first.jpg';
+import Second from '../assets/second.jpg';
+import Third from '../assets/third.jpg';
+import Fourth from '../assets/fourth.jpg';
+import {Link} from 'react-router-dom'
 
 
 
@@ -61,10 +62,10 @@ const Home = () => {
 			</li>
           </ul>
           <div className="items-center flex-shrink-0 hidden lg:flex">
-            <button className="self-center px-8 py-3 rounded">Login</button>
-            <button className="self-center px-8 py-3 font-semibold rounded bg-violet-600 text-gray-50">
+            <Link to='/login'><button className="self-center px-8 py-3 rounded">Login</button></Link>
+            <Link to='/register'><button className="self-center px-8 py-3 font-semibold rounded bg-violet-600 text-gray-50">
               Sign up
-            </button>
+            </button></Link>
           </div>
           <button className="p-4 lg:hidden">
             <svg
@@ -97,20 +98,18 @@ const Home = () => {
               Giving you a healthy outlook on life.
             </p>
             <div className="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 lg:justify-start">
-              <a
-                rel="noopener noreferrer"
-                href="#"
+              <Link
+                to="/login"
                 className="px-8 py-3 text-lg font-semibold rounded bg-violet-600 text-gray-50"
               >
                 Login
-              </a>
-              <a
-                rel="noopener noreferrer"
-                href="#"
+              </Link>
+              <Link
+                to="/register"
                 className="px-8 py-3 text-lg font-semibold border rounded border-gray-800"
               >
                 Sign Up
-              </a>
+              </Link>
             </div>
           </div>
           <div className="flex items-center justify-center p-6 mt-8 lg:mt-0 h-72 sm:h-80 lg:h-96 xl:h-112 2xl:h-128">
@@ -348,7 +347,7 @@ const Home = () => {
 			</div>
 		</div>
 	</div>
-</footer>
+	</footer>
     </>
   );
 };
