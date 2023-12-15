@@ -67,6 +67,7 @@ module.exports.deleteDoctorById = async (req, res) => {
 };
 
 
+// CREATE doctor note
 module.exports.createDoctorNote = async (req, res) => {
   try {
     const { note } = req.body;
@@ -81,3 +82,14 @@ module.exports.createDoctorNote = async (req, res) => {
     res.status(500).json({ error: 'Failed to create doctor note', message: error.message });
   }
 }
+
+// VIEW doctor note
+module.exports.getDoctorNotes = async (req, res) => {
+  try {
+    // Fetch all doctor notes
+    const allDoctorNotes = await DoctorNote.find();
+    res.status(200).json({ doctorNotes: allDoctorNotes });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch doctor notes', message: error.message });
+  }
+};

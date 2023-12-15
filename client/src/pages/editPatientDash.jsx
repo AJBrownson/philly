@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios'
 import { ToastContainer, toast } from "react-toastify";
 
@@ -24,6 +24,8 @@ const EditPatientDashboard = () => {
   const details =  "Asthma review";
   const nextVisit = "2024-01-01"; // Replace this with a date
 
+
+
   // form logic
   const [inputValue, setInputValue] = useState({
     note: "",
@@ -37,14 +39,35 @@ const EditPatientDashboard = () => {
     });
   };
 
+    // Function to fetch doctor notes
+    const [doctorNotes, setDoctorNotes] = useState([]);
+
+    const fetchDoctorNotes = async () => {
+      try {
+        const { data } = await axios.get('http://localhost:5000/doctor/editPatientDash');
+        setDoctorNotes(data.doctorNotes);
+      } catch (error) {
+        console.error('Error fetching doctor notes:', error);
+      }
+    };
+  
+    useEffect(() => {
+      fetchDoctorNotes();
+    }, []);
+
+
+
+
+
+
   const handleError = (err) =>
   toast.error(err, {
     position: "bottom-left",
   });
-const handleSuccess = (msg) =>
-  toast.success(msg, {
-    position: "bottom-left",
-  });
+  const handleSuccess = (msg) =>
+    toast.success(msg, {
+      position: "bottom-right",
+    });
 
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -88,7 +111,7 @@ const handleSubmit = async (e) => {
         <img alt="" className="w-12 h-12 rounded-full ri ri bg-gray-500 ri ri" src="https://source.unsplash.com/40x40/?portrait?1" />
         </div>
         <div>
-          <button className="px-4 py-2 bg-red-500 text-white rounded-md">Logout</button>
+          <button className="px-4 py-2 bg-green-500 text-white rounded-md">Go Back</button>
         </div>
       </header>
 
@@ -181,7 +204,11 @@ const handleSubmit = async (e) => {
           </table>
 
           <h2 className="mt-10 text-lg font-semibold mb-4">Doctor's Notes</h2>
-          <p>Please see me as soon as possible</p>
+          <div>
+            {doctorNotes.map((note, index) => (
+              <p key={index}>{note.note}</p>
+            ))}
+          </div>
           <form onSubmit={handleSubmit}>
           <input
                 type="text"
