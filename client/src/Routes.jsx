@@ -24,7 +24,7 @@ const Routing = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/doctorLogin" element={<DoctorLogin />} />
       <Route path="/doctorSignup" element={<DoctorSignup />} />
-      <Route path="/patient" element={<PatientDashboard />} />
+      <Route path="/patientDash" element={<PatientDashboard />} />
       <Route path="/doctorDash" element={<DoctorDashboard />} />
       <Route path="/adminDash" element={<AdminDashboard />} />
       </Routes>
