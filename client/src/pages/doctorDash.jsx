@@ -23,7 +23,7 @@ const DoctorDashboard = () => {
         navigate("/login");
       }
       const { data } = await axios.post(
-        "http://localhost:5000/doctor",
+        ["http://localhost:5000/doctor", "https://doctorow.netlify.app/doctor"],
         {},
         { withCredentials: true }
       );

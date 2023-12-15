@@ -31,7 +31,7 @@ const AdminDashboard = () => {
         navigate("/login");
       }
       const { data } = await axios.post(
-        "http://localhost:5000/admin",
+        ["http://localhost:5000/admin", "https://doctorow.netlify.app"],
         {},
         { withCredentials: true }
       );
