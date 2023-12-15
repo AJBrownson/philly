@@ -1,24 +1,28 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const doctorSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
-  },
-  user: {
-    type: String,
-    required: true,
+    required: [true, "Your username is required"],
   },
   email: {
     type: String,
-    required: true,
+    required: [true, "Your email address is required"],
+    unique: true,
   },
   password: {
     type: String,
-    required: true,
+    required: [true, "Your password is required"],
+  },
+  createdAt: {
+    type: Date,
+    default: new Date(),
   },
 });
 
-const Doctor = mongoose.model('Doctor', doctorSchema);
+doctorSchema.pre("save", async function () {
+  this.password = await bcrypt.hash(this.password, 12);
+});
 
-module.exports = Doctor;
+module.exports = mongoose.model("Doctor", doctorSchema);

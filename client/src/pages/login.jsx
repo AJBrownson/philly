@@ -1,40 +1,68 @@
 /* eslint-disable no-unused-vars */
-import {useState} from "react";
-import axios from 'axios'
-
-
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
-  const [name, setName] = useState('')
-  const [password, setPassword] = useState('')
+  const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState({
+    email: "",
+    password: "",
+  });
+  const { email, password } = inputValue;
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setInputValue({
+      ...inputValue,
+      [name]: value,
+    });
+  };
 
-  const handleSubmit = (e) => {
+  const handleError = (err) =>
+    toast.error(err, {
+      position: "bottom-left",
+    });
+  const handleSuccess = (msg) =>
+    toast.success(msg, {
+      position: "bottom-left",
+    });
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    axios
-      .post("http://localhost:5000/patients/login", {
-        name,
-        password,
-      })
-      .then((res) => {
-        console.log(res)
-      })
-      .catch((err) => {
-        console.log(err)
-      });
-
-    // This clears form input values after submission
-    setName("");
-    setPassword('');
+    try {
+      const { data } = await axios.post(
+        "http://localhost:5000/login",
+        {
+          ...inputValue,
+        },
+        { withCredentials: true }
+      );
+      console.log(data);
+      const { success, message } = data;
+      if (success) {
+        handleSuccess(message);
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      } else {
+        handleError(message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setInputValue({
+      ...inputValue,
+      email: "",
+      password: "",
+    });
   };
 
   return (
     <>
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="bg-white p-8 rounded shadow-md max-w-md w-full">
-          <h2 className="text-2xl mb-4 font-bold text-center">
-            Login
-          </h2>
+          <h2 className="text-2xl mb-4 font-bold text-center">Login</h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label htmlFor="name" className="block mb-1 font-semibold">
@@ -42,12 +70,12 @@ const Login = () => {
               </label>
               <input
                 type="text"
-                id="name"
-                name="name"
-                placeholder="Enter your name"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
                 className="w-full border rounded px-3 py-2"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={email}
+                onChange={handleOnChange}
               />
             </div>
             <div className="mb-4">
@@ -61,18 +89,22 @@ const Login = () => {
                 placeholder="Enter your password"
                 className="w-full border rounded px-3 py-2"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handleOnChange}
               />
             </div>
-            <div className="text-center">
+            <div className="text-center flex flex-col">
               <button
                 type="submit"
                 className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-800 transition duration-300"
               >
                 Login
               </button>
+              <span className="text-center mt-5">
+                Already have an account? <Link to={"/signup"}>Signup</Link>
+              </span>
             </div>
           </form>
+          <ToastContainer />
         </div>
       </div>
     </>
