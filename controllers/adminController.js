@@ -5,12 +5,12 @@ const bcrypt = require("bcryptjs");
 
 module.exports.Signup = async (req, res, next) => {
   try {
-    const { username, email, password, createdAt } = req.body;
+    const { name, email, password, createdAt } = req.body;
     const existingAdmin = await Admin.findOne({ email });
     if (existingAdmin) {
       return res.json({ message: "Admin already exists" });
     }
-    const admin = await Admin.create({ username, email, password, createdAt });
+    const admin = await Admin.create({ name, email, password, createdAt });
     const token = createSecretToken(admin._id);
     res.cookie("token", token, {
       withCredentials: true,
@@ -36,7 +36,7 @@ module.exports.Login = async (req, res, next) => {
     if(!admin){
       return res.json({message:'Incorrect password or email' }) 
     }
-    const auth = await bcrypt.compare(password,user.password)
+    const auth = await bcrypt.compare(password,admin.password)
     if (!auth) {
       return res.json({message:'Incorrect password or email' }) 
     }

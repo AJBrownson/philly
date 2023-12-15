@@ -37,7 +37,14 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div>AdminDashboard
+    <div>
+          <div>
+        <h4>
+          {" "}
+          Welcome <span>{name}</span>
+        </h4>
+        <button onClick={Logout}>LOGOUT</button>
+      </div>
       <ToastContainer />
     </div>
   )

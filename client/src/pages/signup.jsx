@@ -4,14 +4,16 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
+
+
 const Signup = () => {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
+    name: "",
     email: "",
     password: "",
-    name: "",
   });
-  const { email, password, name } = inputValue;
+  const { name, email, password, } = inputValue;
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setInputValue({
@@ -33,7 +35,7 @@ const Signup = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/signup",
+        "http://localhost:5000/signup",
         {
           ...inputValue,
         },
@@ -53,9 +55,9 @@ const Signup = () => {
     }
     setInputValue({
       ...inputValue,
+      name: "",
       email: "",
       password: "",
-      name: "",
     });
   };
 
