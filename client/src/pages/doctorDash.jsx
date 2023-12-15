@@ -1,93 +1,99 @@
-/* eslint-disable no-unused-vars */
-import {useState} from "react";
-import axios from 'axios'
+/* eslint-disable react/no-unescaped-entities */
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
+const DoctorDashboard = () => {
+  const [doctorName] = React.useState('Doctor');
+  const [patients, setPatients] = React.useState([
+    { id: 1, name: 'Patient 1' },
+    { id: 2, name: 'Patient 2' },
+    // Add more patient data as needed
+  ]);
 
+  const navigate = useNavigate();
+  const [cookies, removeCookie] = useCookies([]);
+  const [username, setUsername] = useState("");
+  
+  useEffect(() => {
+    const verifyCookie = async () => {
+      if (!cookies.token) {
+        navigate("/login");
+      }
+      const { data } = await axios.post(
+        "http://localhost:5000/doctor",
+        {},
+        { withCredentials: true }
+      );
+      const { status, doctor } = data;
+      setUsername(doctor);
+      return status
+        ? toast(`Hello Dr. ${doctor}`, {
+            position: "top-right",
+          })
+        : (removeCookie("token"), navigate("/login"));
+    };
+    verifyCookie();
+  }, [cookies, navigate, removeCookie]);
 
-const Login = () => {
-  const [name, setName] = useState('')
-  const [password, setPassword] = useState('')
+  const Logout = () => {
+    removeCookie("token");
+    navigate("/signup");
+  };
 
-  const [data, setData] = useState({
-    name: '',
-    email: '',
-    password: '',
-  })
-
-  const loginUser = (e) => {
-    e.preventDefault();
-    axios.get('/')
-  }
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-
-  //   axios
-  //     .post("http://localhost:5000/patients/login", {
-  //       name,
-  //       password,
-  //     })
-  //     .then((res) => {
-  //       console.log(res)
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //     });
-
-  //   // This clears form input values after submission
-  //   setName("");
-  //   setPassword('');
-  // };
+  // Function to delete a patient by the doctor
+  const dischargePatient = async (patientId) => {
+    try {
+      await axios.delete(`/patient/${patientId}`); // Replace with actual API endpoint
+      setPatients(patients.filter((patient) => patient.id !== patientId));
+    } catch (error) {
+      console.error('Error discharging patient:', error);
+    }
+  };
 
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="bg-white p-8 rounded shadow-md max-w-md w-full">
-          <h2 className="text-2xl mb-4 font-bold text-center">
-            Login
-          </h2>
-          <form onSubmit={loginUser}>
-            <div className="mb-4">
-              <label htmlFor="name" className="block mb-1 font-semibold">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Enter your name"
-                className="w-full border rounded px-3 py-2"
-                value={data.name}
-                onChange={(e) => setName({...data, name: e.target.value})}
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="password" className="block mb-1 font-semibold">
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Enter your password"
-                className="w-full border rounded px-3 py-2"
-                value={data.password}
-                onChange={(e) => setName({...data, password: e.target.value})}
-              />
-            </div>
-            <div className="text-center">
-              <button
-                type="submit"
-                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-800 transition duration-300"
-              >
-                Login
-              </button>
-            </div>
-          </form>
-        </div>
+      <div className="bg-gray-100 min-h-screen">
+        {/* Header */}
+        <header className="bg-blue-500 text-white py-4 px-8 flex justify-between items-center">
+          <h1 className="text-xl font-bold">{doctorName}'s Dashboard</h1>
+          <button className="bg-red-600 hover:bg-red-700 py-2 px-4 rounded-lg text-white" onClick={Logout}>LOGOUT</button>
+        </header>
+
+        {/* Main Content */}
+        <main className="container mx-auto p-8">
+          {/* Patients Table */}
+          <h2 className="text-2xl font-semibold mb-4">Patients</h2>
+          <table className="w-full bg-white shadow-md rounded-md overflow-hidden mb-8">
+            <thead className="bg-gray-200">
+              <tr>
+                <th className="py-2 px-4">Patient Name</th>
+                <th className="py-2 px-4">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {patients.map((patient) => (
+                <tr key={patient.id}>
+                  <td className="py-2 px-4">{patient.name}</td>
+                  <td className="py-2 px-4">
+                    <button
+                      onClick={() => dischargePatient(patient.id)}
+                      className="bg-red-600 hover:bg-red-700 py-1 px-2 rounded-md text-white"
+                    >
+                      Discharge
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </main>
       </div>
+      <ToastContainer />
     </>
   );
 };
 
-export default Login;
+export default DoctorDashboard;

@@ -17,7 +17,7 @@ const Users = () => {
           <span className='font-semibold text-xl'>Admin</span>
         </div>
         <div className="flex flex-col items-center">
-          <Link to='/login'>
+          <Link to='/doctorLogin'>
           <img
             alt=""
             className="w-24 h-24 rounded-full bg-gray-500 mb-2"
@@ -27,7 +27,7 @@ const Users = () => {
           <span className='font-semibold text-xl'>Doctor</span>
         </div>
         <div className="flex flex-col items-center">
-          <Link to='/login'>
+          <Link to='/patientLogin'>
           <img
             alt=""
             className="w-24 h-24 rounded-full bg-gray-500 mb-2"

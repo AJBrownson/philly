@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 
 
-const Signup = () => {
+const DoctorSignup = () => {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
     username: "",
@@ -35,7 +35,7 @@ const Signup = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/admin/signup",
+        "http://localhost:5000/doctor/doctorSignup",
         {
           ...inputValue,
         },
@@ -45,7 +45,7 @@ const Signup = () => {
       if (success) {
         handleSuccess(message);
         setTimeout(() => {
-          navigate("/adminDash");
+          navigate("/doctorDash");
         }, 1000);
       } else {
         handleError(message);
@@ -117,7 +117,7 @@ const Signup = () => {
                 Sign Up
               </button>
               <span className="text-center mt-5">
-                Already have an account? <Link to={"/login"}>Login</Link>
+                Already have an account? <Link to={"/doctorLogin"}>Login</Link>
               </span>
             </div>
           </form>
@@ -128,4 +128,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default DoctorSignup;

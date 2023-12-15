@@ -5,12 +5,12 @@ const bcrypt = require("bcryptjs");
 
 module.exports.Signup = async (req, res, next) => {
   try {
-    const { name, email, password, createdAt } = req.body;
+    const { username, email, password, createdAt } = req.body;
     const existingAdmin = await Admin.findOne({ email });
     if (existingAdmin) {
       return res.json({ message: "Admin already exists" });
     }
-    const admin = await Admin.create({ name, email, password, createdAt });
+    const admin = await Admin.create({ username, email, password, createdAt });
     const token = createSecretToken(admin._id);
     res.cookie("token", token, {
       withCredentials: true,
@@ -28,17 +28,17 @@ module.exports.Signup = async (req, res, next) => {
 
 module.exports.Login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-    if(!email || !password ){
+    const { username, password } = req.body;
+    if(!username || !password ){
       return res.json({message:'All fields are required'})
     }
-    const admin = await Admin.findOne({ email });
+    const admin = await Admin.findOne({ username });
     if(!admin){
-      return res.json({message:'Incorrect password or email' }) 
+      return res.json({message:'Incorrect password or username' }) 
     }
     const auth = await bcrypt.compare(password,admin.password)
     if (!auth) {
-      return res.json({message:'Incorrect password or email' }) 
+      return res.json({message:'Incorrect password or username' }) 
     }
      const token = createSecretToken(admin._id);
      res.cookie("token", token, {

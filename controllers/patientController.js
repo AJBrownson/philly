@@ -51,3 +51,17 @@ module.exports.Login = async (req, res, next) => {
     console.error(error);
   }
 }
+
+
+
+// DELETE a patient by ID
+module.exports.deletePatientById = async (req, res) => {
+  try {
+    const patientId = req.params.id;
+    // Replace this with your actual logic to delete a patient by ID from the database
+    await Patient.findByIdAndDelete(patientId);
+    res.status(200).json({ message: 'Patient deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting patient', error: error.message });
+  }
+};

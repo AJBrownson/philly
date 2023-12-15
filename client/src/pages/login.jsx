@@ -4,13 +4,15 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
+
+
 const Login = () => {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
-    email: "",
+    username: "",
     password: "",
   });
-  const { email, password } = inputValue;
+  const { username, password } = inputValue;
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setInputValue({
@@ -32,7 +34,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/login",
+        "http://localhost:5000/admin/login",
         {
           ...inputValue,
         },
@@ -41,9 +43,10 @@ const Login = () => {
       console.log(data);
       const { success, message } = data;
       if (success) {
+        console.log('sucessful');
         handleSuccess(message);
         setTimeout(() => {
-          navigate("/");
+          navigate("/adminDash");
         }, 1000);
       } else {
         handleError(message);
@@ -53,7 +56,7 @@ const Login = () => {
     }
     setInputValue({
       ...inputValue,
-      email: "",
+      username: "",
       password: "",
     });
   };
@@ -70,11 +73,11 @@ const Login = () => {
               </label>
               <input
                 type="text"
-                id="email"
-                name="email"
-                placeholder="Enter your email"
+                id="username"
+                name="username"
+                placeholder="Enter your username"
                 className="w-full border rounded px-3 py-2"
-                value={email}
+                value={username}
                 onChange={handleOnChange}
               />
             </div>

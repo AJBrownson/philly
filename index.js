@@ -32,6 +32,6 @@ app.use(cookieParser());
 
 app.use(express.json());
 
-app.use("/adminDash", adminRoute);
-app.use("/patientDash", patientRoute);
-app.use("/doctorDash", doctorRoute);
+app.use("/admin", adminRoute);
+app.use("/patient", patientRoute);
+app.use("/doctor", doctorRoute);

@@ -1,17 +1,16 @@
 /* eslint-disable no-unused-vars */
 // import { useEffect, useState } from 'react'
 import { Routes, Route } from "react-router-dom";
-import Home from './pages/home'
+import Home from './pages/home';
 import Signup from "./pages/signup";
 import Login from './pages/login'
+import DoctorLogin from "./pages/doctorLogin";
+import DoctorSignup from './pages/doctorSignup'
 import PatientDashboard from "./pages/patientDash";
 import DoctorDashboard from "./pages/doctorDash";
 import AdminDashboard from "./pages/adminDash";
 import Users from './pages/users'
-import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost:5000';
-axios.defaults.withCredentials = true
 
 
 const Routing = () => {
@@ -23,9 +22,11 @@ const Routing = () => {
       <Route path='/signup' element={ <Signup /> } />
       <Route path='/users' element={ <Users /> } />
       <Route path="/login" element={<Login />} />
+      <Route path="/doctorLogin" element={<DoctorLogin />} />
+      <Route path="/doctorSignup" element={<DoctorSignup />} />
       <Route path="/patient" element={<PatientDashboard />} />
-      <Route path="/doctor" element={<DoctorDashboard />} />
-      <Route path="/admin " element={<AdminDashboard />} />
+      <Route path="/doctorDash" element={<DoctorDashboard />} />
+      <Route path="/adminDash" element={<AdminDashboard />} />
       </Routes>
     </>
   );
