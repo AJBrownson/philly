@@ -4,6 +4,9 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { Link } from 'react-router-dom'
+
+
 
 const DoctorDashboard = () => {
   const [doctorName] = React.useState('Doctor');
@@ -78,12 +81,14 @@ const DoctorDashboard = () => {
                 <tr key={patient.id}>
                   <td className="py-2 px-4">{patient.name}</td>
                   <td className="py-2 px-4">
+                    <Link to='/patientDash'>
                     <button
                       onClick={() => dischargePatient(patient.id)}
-                      className="bg-red-600 hover:bg-red-700 py-1 px-2 rounded-md text-white"
+                      className="bg-blue-300 hover:bg-blue-700 py-1 px-2 rounded-md text-white"
                     >
-                      Discharge
+                      View
                     </button>
+                    </Link>
                   </td>
                 </tr>
               ))}
