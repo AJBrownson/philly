@@ -1,4 +1,5 @@
 const Doctor  = require("../models/doctorModel");
+const DoctorNote = require('../models/doctorNoteModel');
 const { createSecretToken } = require("../util/secretToken");
 const bcrypt = require("bcryptjs");
 
@@ -28,17 +29,17 @@ module.exports.Signup = async (req, res, next) => {
 
 module.exports.Login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-    if(!email || !password ){
+    const { username, password } = req.body;
+    if(!username || !password ){
       return res.json({message:'All fields are required'})
     }
-    const doctor = await Doctor.findOne({ email });
+    const doctor = await Doctor.findOne({ username });
     if(!doctor){
-      return res.json({message:'Incorrect password or email' }) 
+      return res.json({message:'Incorrect password or username' }) 
     }
-    const auth = await bcrypt.compare(password,user.password)
+    const auth = await bcrypt.compare(password,doctor.password)
     if (!auth) {
-      return res.json({message:'Incorrect password or email' }) 
+      return res.json({message:'Incorrect password or username' }) 
     }
      const token = createSecretToken(doctor._id);
      res.cookie("token", token, {
@@ -64,3 +65,19 @@ module.exports.deleteDoctorById = async (req, res) => {
     res.status(500).json({ message: 'Error deleting doctor', error: error.message });
   }
 };
+
+
+module.exports.createDoctorNote = async (req, res) => {
+  try {
+    const { note } = req.body;
+
+    const newNote = new DoctorNote({
+      note,
+    })
+
+    await newNote.save();
+    res.status(201).json({ message: 'Doctor note created successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to create doctor note', message: error.message });
+  }
+}

@@ -81,7 +81,7 @@ const DoctorDashboard = () => {
                 <tr key={patient.id}>
                   <td className="py-2 px-4">{patient.name}</td>
                   <td className="py-2 px-4">
-                    <Link to='/patientDash'>
+                    <Link to='/editPatientDash'>
                     <button
                       onClick={() => dischargePatient(patient.id)}
                       className="bg-blue-300 hover:bg-blue-700 py-1 px-2 rounded-md text-white"

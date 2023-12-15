@@ -34,8 +34,9 @@ const DoctorLogin = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        ["http://localhost:5000/doctor/doctorLogin",
-        "https://philly-production.up.railway.app/doctor/doctorLogin"],
+        "http://localhost:5000/doctor/doctorLogin",
+        // ["http://localhost:5000/doctor/doctorLogin",
+        // "https://philly-production.up.railway.app/doctor/doctorLogin"],
         {
           ...inputValue,
         },

@@ -7,6 +7,7 @@ import Login from './pages/login'
 import DoctorLogin from "./pages/doctorLogin";
 import DoctorSignup from './pages/doctorSignup'
 import PatientDashboard from "./pages/patientDash";
+import EditPatientDashboard from "./pages/editPatientDash";
 import DoctorDashboard from "./pages/doctorDash";
 import AdminDashboard from "./pages/adminDash";
 import Users from './pages/users'
@@ -25,6 +26,7 @@ const Routing = () => {
       <Route path="/doctorLogin" element={<DoctorLogin />} />
       <Route path="/doctorSignup" element={<DoctorSignup />} />
       <Route path="/patientDash" element={<PatientDashboard />} />
+      <Route path="/editPatientDash" element={<EditPatientDashboard />} />
       <Route path="/doctorDash" element={<DoctorDashboard />} />
       <Route path="/adminDash" element={<AdminDashboard />} />
       </Routes>

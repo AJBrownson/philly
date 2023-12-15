@@ -9,6 +9,7 @@ const doctorRoute = require("./routes/doctorRoutes");
 const patientRoute = require("./routes/patientRoutes");
 const { CONNECTION_URI, PORT } = process.env;
 
+
 mongoose
   .connect(CONNECTION_URI, {
     useNewUrlParser: true,

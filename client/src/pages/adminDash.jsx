@@ -13,13 +13,11 @@ const AdminDashboard = () => {
   const [patients, setPatients] = React.useState([
     { id: 1, name: 'Patient 1' },
     { id: 2, name: 'Patient 2' },
-    // Add more patient data as needed
   ]);
 
   const [doctors, setDoctors] = React.useState([
     { id: 1, name: 'Doctor 1' },
     { id: 2, name: 'Doctor 2' },
-    // Add more doctor data as needed
   ])
 
   const navigate = useNavigate();

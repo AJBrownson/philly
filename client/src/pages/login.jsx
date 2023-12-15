@@ -34,8 +34,9 @@ const Login = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        ["http://localhost:5000/admin/login",
-        "https://philly-production.up.railway.app/admin/login"],
+        "http://localhost:5000/admin/login",
+        // ["http://localhost:5000/admin/login",
+        // "https://philly-production.up.railway.app/admin/login"],
         {
           ...inputValue,
         },
